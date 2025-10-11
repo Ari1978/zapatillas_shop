@@ -1,0 +1,62 @@
+/* Fondo con imagen */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: url('https://www.namesnack.com/images/namesnack-nombres-para-tiendas-de-zapatos-deportivos-6000x4000-20230523.jpeg?crop=2:1,smart&width=730') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+}
+
+/* Contenedor transparente para no tapar el fondo */
+.container {
+  background-color: rgba(0, 0, 0, 0.3); /* semi-transparente oscuro para contraste */
+  padding: 60px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  max-width: 500px;
+  width: 90%;
+}
+
+/* Fade-in para el título */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #fff; /* título blanco */
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6); /* sombra para resaltar sobre el fondo */
+}
+
+.btn-home {
+  font-size: 1.2rem;
+  padding: 12px 40px;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-home:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 576px) {
+  h1 { font-size: 2rem; }
+  .btn-home { padding: 10px 30px; font-size: 1rem; }
+}
