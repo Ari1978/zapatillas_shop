@@ -6,42 +6,34 @@ import { PRIVATE_KEY, authorization } from "../utils.js";
 
 const router = Router();
 
-// -------------------------------------------
-// Index - 
-// -------------------------------------------
+// 🔹 Index
 router.get("/", async (req, res) => {
   try {
-    const products = await productModel.find().lean();
-    res.render("index", {
+    res.render("index", { 
       title: "ZapatillasShop",
-      products,
-      user: req.session.user || null,
       year: new Date().getFullYear()
     });
   } catch (err) {
-    console.error("Error cargando home:", err);
-    res.status(500).send("Error cargando productos");
+    console.error("Error en index:", err);
+    res.status(500).send("Error cargando página de inicio");
   }
 });
 
-// -------------------------------------------
-// Home público - muestra productos sin carrito
-// -------------------------------------------
+// 🔹 Home - muestra productos
 router.get("/home", async (req, res) => {
   try {
     const products = await productModel.find().lean();
-    res.render("home", {
-      title: "ZapatillasShop",
+    res.render("home", { 
+      title: "Tienda",
       products,
-      user: req.session.user || null,
+      user: req.session?.user || null,
       year: new Date().getFullYear()
     });
   } catch (err) {
-    console.error("Error cargando home:", err);
+    console.error("Error en home:", err);
     res.status(500).send("Error cargando productos");
   }
 });
-
 
 // -------------------------------------------
 // Shop - solo para usuarios logueados
