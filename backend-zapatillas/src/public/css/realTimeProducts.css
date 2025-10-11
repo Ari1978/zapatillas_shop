@@ -1,0 +1,104 @@
+/* Contenedor principal */
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Título de página */
+h1 {
+  text-align: center;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+/* Cards de productos en tiempo real */
+.product-card .card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+}
+
+.product-card .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Imagen del producto */
+.product-card .card-img-top {
+  width: 100%;
+  height: 140px;           /* alto fijo para todas las cards */
+  object-fit: contain;      /* muestra toda la imagen sin recortar */
+  object-position: center;  /* centra la imagen dentro del espacio */
+  background-color: #f8f8f8; /* fondo neutro para que se vea prolijo */
+  display: block;
+  margin: 0 auto;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 5px;            /* espacio interno para que no toque bordes */
+}
+
+
+/* Card body */
+.product-card .card-body {
+  padding: 0.8rem;
+}
+
+/* Card title */
+.product-card .card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  color: #222;
+}
+
+/* Card description */
+.product-card .card-text {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 0.2rem;
+  line-height: 1.2rem;
+  max-height: 2.4rem; /* máximo 2 líneas */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+/* Precio, stock y categoría */
+.product-card .card-text strong {
+  color: #000;
+}
+
+/* Contenedor de lista de productos */
+#realtime-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Cada card ocupa ancho fijo pero flexible */
+.product-card {
+  flex: 1 1 calc(33.333% - 1rem);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .product-card {
+    flex: 1 1 calc(50% - 1rem);
+  }
+  .product-card .card-img-top {
+    height: 130px;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-card {
+    flex: 1 1 100%;
+  }
+  .product-card .card-img-top {
+    height: 120px;
+  }
+}
+

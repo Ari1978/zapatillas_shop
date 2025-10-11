@@ -1,0 +1,70 @@
+/* shop.css */
+
+/* Fuente global */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Cards más compactas */
+.product-card .card {
+  font-size: 0.9rem;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Imagen del producto más pequeña y centrada */
+.product-card .card-img-top {
+  height: 150px; /* tamaño reducido */
+  width: auto;
+  max-width: 90%;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Botón agregar al carrito */
+.add-to-cart-btn {
+  width: 90%;
+  font-size: 0.85rem;
+  padding: 0.4rem;
+  margin: 0.5rem auto;
+  display: block;
+  border-radius: 6px;
+}
+
+/* Botones cerrar sesión y comprar productos más pequeños */
+.btn-logout,
+.btn-buy {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-card .card-img-top {
+    height: 120px;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-card .card-img-top {
+    height: 100px;
+  }
+  .card-body h5 {
+    font-size: 1rem;
+  }
+  .card-body p {
+    font-size: 0.8rem;
+  }
+  .add-to-cart-btn {
+    font-size: 0.8rem;
+    padding: 0.35rem;
+  }
+  .btn-logout,
+  .btn-buy {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+  }
+}

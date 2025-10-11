@@ -1,0 +1,39 @@
+/* Navbar */
+.navbar-brand {
+  font-weight: 700;
+}
+
+/* Carrito flotante */
+#floatingCart {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 1.8rem;
+  z-index: 1050;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#floatingCart:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+#floatingCart .badge {
+  font-size: 0.75rem;
+  padding: 0.3em 0.5em;
+  top: -5px;
+  right: -5px;
+}
+
+/* Badge carrito en navbar */
+#cartCount {
+  font-size: 0.75rem;
+  padding: 0.3em 0.5em;
+}
+
+/* Footer */
+footer {
+  font-size: 0.9rem;
+}
+

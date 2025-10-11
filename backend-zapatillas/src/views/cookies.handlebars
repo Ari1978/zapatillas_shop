@@ -1,0 +1,65 @@
+<h1>Datos de prueba cookies</h1>
+
+<div>
+    <form id="clienteForm">
+        <label for="nombre">Nombre del cliente</label>
+        <input type="text" id="nombre" name="nombre">
+        <br>
+        <label for="correo">Correo del cliente</label>
+        <input type="email" id="correo" name="correo">
+        <br>
+        <button type="submit">submit</button>
+        <button type="button" onclick="getCookie()">Get Cookie</button>
+    </form>
+</div>
+
+
+<script>
+
+    //Sumit 
+
+    let formData = document.getElementById("clienteForm");
+
+formData.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById("nombre").value;  
+    const correo = document.getElementById("correo").value;  
+
+    fetch("http://localhost:9090/set-cookie", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ nombre, correo }) // ahora sí convierte en JSON
+    })
+    .then(response => response.text())
+    .then(msg => {
+        console.log("mensaje", msg);
+    })
+    .catch(error => {
+        console.log("Error al obtener la cookie:", error);
+    });
+});
+
+    //Get cookie
+    function getCookie() {
+
+        //debemos hacer un fetch a las APIs
+        fetch("http://localhost:9090/getCookie", {
+            method: "GET",
+            credentials: "include" // para incluir las cookies en lña solicitud
+        })
+
+            .then(response => {
+                return response.text()
+            })
+            .then(cookie => {
+                console.log("Cookie recibida:", cookie);
+            })
+            .catch(error => {
+                console.log("Error al obtener la cookie:", error)
+            });
+
+    }
+</script>

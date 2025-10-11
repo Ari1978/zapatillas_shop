@@ -1,0 +1,132 @@
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/realTimeProducts.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container my-4">
+      <div class="d-flex justify-content-end mt-4 mb-4">
+        <a href="/adminPanel" class="btn btn-secondary btn-sm px-4">Volver</a>
+      </div>
+
+      <h1 class="mb-4">Lista de productos</h1>
+
+      <form id="form-create-product" class="mb-4">
+        <h3>Crear nuevo producto</h3>
+        <div class="mb-2">
+          <input
+            type="text"
+            name="title"
+            placeholder="Título"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-2">
+          <input
+            type="text"
+            name="description"
+            placeholder="Descripción"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-2">
+          <input
+            type="text"
+            name="code"
+            placeholder="Código"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-2">
+          <input
+            type="number"
+            name="price"
+            placeholder="Precio"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-2">
+          <input
+            type="number"
+            name="stock"
+            placeholder="Stock"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-2">
+          <input
+            type="text"
+            name="category"
+            placeholder="Categoría"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-2">
+          <input
+            type="text"
+            name="image"
+            placeholder="URL Imagen"
+            class="form-control"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Producto</button>
+      </form>
+
+      <form id="form-delete-product" class="mb-4">
+        <h3>Eliminar producto por ID</h3>
+        <div class="input-group">
+          <input
+            type="text"
+            id="delete-id"
+            placeholder="ID producto"
+            class="form-control"
+            required
+          />
+          <button type="submit" class="btn btn-danger">Eliminar Producto</button>
+        </div>
+      </form>
+
+      <div class="product-list row" id="realtime-products">
+        {{#if products.length}}
+          {{#each products}}
+            <div class="col-md-4 mb-3">
+              <div class="card product-card" data-id="{{this.id}}">
+                <img
+                  src="{{this.image}}"
+                  class="card-img-top"
+                  alt="{{this.title}}"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{this.title}}</h5>
+                  <p class="card-text">{{this.description}}</p>
+                  <p class="card-text"><strong>Precio:</strong>
+                    ${{this.price}}</p>
+                  <p class="card-text"><strong>Stock:</strong>
+                    {{this.stock}}</p>
+                  <p class="card-text"><strong>ID:</strong> {{this._id}}</p>
+                </div>
+              </div>
+            </div>
+          {{/each}}
+        {{else}}
+          <p>No hay productos disponibles.</p>
+        {{/if}}
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/realTime.js"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<h1 class="mb-4 text-center text-danger">Eliminar Usuario</h1>
+
+<div class="card shadow-sm p-4 mx-auto text-center" style="max-width: 600px;">
+  <p class="fs-5 mb-4">
+    ¿Estás seguro de que querés eliminar al usuario <strong>{{user.first_name}} {{user.last_name}}</strong>?
+  </p>
+
+  <p class="text-muted mb-4">
+    Esta acción no se puede deshacer.
+  </p>
+
+  <form action="/admin/users/delete/{{user.id}}" method="POST" class="d-inline">
+    <button type="submit" class="btn btn-danger me-2">
+      <i class="bi bi-trash"></i> Sí, eliminar
+    </button>
+  </form>
+
+  <a href="/admin/users" class="btn btn-secondary">
+    <i class="bi bi-arrow-left"></i> Cancelar
+  </a>
+</div>
+

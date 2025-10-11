@@ -1,0 +1,75 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  background: linear-gradient(180deg, #0d6efd, #003366);
+  color: #fff;
+  width: 250px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar h4 {
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar .nav-link {
+  color: #eaeaea;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  padding: 10px 15px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: translateX(3px);
+}
+
+/* Botones */
+.btn-outline-light:hover {
+  background-color: #fff;
+  color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Contenido principal */
+main h2 {
+  color: #0d6efd;
+}
+
+table thead {
+  background-color: #0d6efd;
+  color: white;
+}
+
+table tbody tr:hover {
+  background-color: #f2f6fc;
+}
+
+/* Ajustes de tabla */
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
