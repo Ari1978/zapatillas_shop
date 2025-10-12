@@ -28,11 +28,14 @@
                 <p><strong>Precio:</strong> ${{this.product.price}}</p>
                 <p><strong>Cantidad:</strong> {{this.quantity}}</p>
                 <p><strong>Total:</strong> ${{multiply this.product.price this.quantity}}</p>
-                <button class="btn btn-danger mt-auto remove-from-cart-btn" data-id="{{this.product._id}}">
+                <button 
+                  class="btn btn-danger mt-auto remove-from-cart-btn"
+                  data-id="{{this.product._id}}"
+                  data-cart="{{../cart._id}}">
                   Eliminar del carrito
-                </button>
+                </button> 
+
               </div>
-            </div>
           </div>
         {{/each}}
       {{else}}
@@ -47,9 +50,7 @@
       </div>
     {{/if}}
   </div>
-  <button class="btn btn-secondary mb-3" onclick="history.back()">Volver</button>
-
-
+  
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
   <script>
     Handlebars.registerHelper('multiply', (a, b) => a * b);
