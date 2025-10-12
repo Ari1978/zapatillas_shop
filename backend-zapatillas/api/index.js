@@ -1,19 +1,20 @@
-import serverless from "serverless-http";
-import app from "../src/app.js";
+import app from "../app.js";
 import mongoose from "mongoose";
-import userModel from "../src/models/user.model.js";
+import dotenv from "dotenv";
+import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import serverless from "serverless-http";
 
-let cached = global.mongoose;
-if (!cached) cached = global.mongoose = { conn: null, promise: null };
+dotenv.config();
 
-// Seed admin
+let conn = null;
+
 const seedAdmin = async () => {
   const { ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD) return;
 
-  const existingAdmin = await userModel.findOne({ email: ADMIN_EMAIL });
-  if (!existingAdmin) {
+  const existing = await userModel.findOne({ email: ADMIN_EMAIL });
+  if (!existing) {
     const hashed = await bcrypt.hash(ADMIN_PASSWORD, 10);
     await userModel.create({
       first_name: "Admin",
@@ -27,20 +28,13 @@ const seedAdmin = async () => {
   }
 };
 
-// Conexión a MongoDB
-async function connectDB(uri) {
-  if (!uri) throw new Error("MONGO_URI no definido!");
-  if (cached.conn) return cached.conn;
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(uri).then(m => m);
+export default async function handler(req, res) {
+  if (!conn) {
+    conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ Conectado a MongoDB");
+    await seedAdmin();
   }
-  cached.conn = await cached.promise;
-  return cached.conn;
+
+  const handle = serverless(app);
+  return handle(req, res);
 }
-
-// Conectar DB y seed admin antes de exportar handler
-await connectDB(process.env.MONGO_URI);
-await seedAdmin();
-
-// Exportar handler compatible Vercel
-export const handler = serverless(app);
