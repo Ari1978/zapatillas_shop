@@ -1,20 +1,20 @@
+// server.js
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Server } from "socket.io";
-import app from "./app.js";
+import http from "http";
+import app from "./app.js"; // tu app con Express
 import productModel from "./models/product.model.js";
 import userModel from "./models/user.model.js";
 import { PRIVATE_KEY } from "./utils.js";
-import http from "http";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 9090;
 const MONGO_URI = process.env.MONGO_URI;
 
-// 🚨 Si no hay URI de Mongo
 if (!MONGO_URI) {
   console.error("❌ MONGO_URI no definida");
   process.exit(1);
@@ -40,7 +40,7 @@ const seedAdmin = async () => {
   }
 };
 
-// ✅ Inicializa Mongo una sola vez
+// ✅ Inicializa Mongo
 let dbReady = false;
 const initMongo = async () => {
   if (!dbReady) {
@@ -51,19 +51,23 @@ const initMongo = async () => {
   }
 };
 
-// ✅ Configuración del servidor HTTP y Socket.io
+// ======================================================
+// 🔹 Servidor HTTP + Socket.io
+// ======================================================
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
-// Middleware JWT para sockets
+// JWT para sockets
 io.use((socket, next) => {
   let token = socket.handshake.auth?.token;
 
   if (!token && socket.handshake.headers.cookie) {
     const cookies = Object.fromEntries(
-      socket.handshake.headers.cookie.split(";").map(c => c.trim().split("="))
+      socket.handshake.headers.cookie
+        .split(";")
+        .map((c) => c.trim().split("="))
     );
     token = cookies.jwtCookieToken;
   }
@@ -95,20 +99,10 @@ io.on("connection", async (socket) => {
 });
 
 // ======================================================
-// 🔹 MODO LOCAL (npm run dev o node server.js)
+// 🔹 Arrancar servidor
 // ======================================================
-if (process.env.NODE_ENV !== "production") {
-  initMongo().then(() => {
-    server.listen(PORT, () => {
-      console.log(`🚀 Servidor local corriendo en http://localhost:${PORT}`);
-    });
+initMongo().then(() => {
+  server.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
   });
-}
-
-// ======================================================
-// 🔹 EXPORT PARA VERCEL
-// ======================================================
-export default async function handler(req, res) {
-  await initMongo();
-  return app(req, res);
-}
+});
