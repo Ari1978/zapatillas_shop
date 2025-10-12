@@ -46,7 +46,7 @@ router.get("/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).send({ error: "Error al cerrar sesión" });
     res.clearCookie("jwtCookieToken");
-    return res.redirect("/");
+    return res.redirect("/home");
   });
 });
 

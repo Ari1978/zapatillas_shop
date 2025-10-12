@@ -3,25 +3,4 @@
 .env
 .vercel/
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE / Editor
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-
-# Build outputs
-dist/
-build/
-out/
 
