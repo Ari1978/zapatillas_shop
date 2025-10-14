@@ -1,8 +1,7 @@
+import http from "http";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-import http from "http";
-import { Server } from "socket.io";
 
 import app from "./app.js";
 import userModel from "./src/models/user.model.js";
@@ -50,6 +49,7 @@ const initMongo = async () => {
 };
 
 // Servidor y Socket.io
+import { Server } from "socket.io";
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 
