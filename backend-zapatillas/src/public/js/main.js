@@ -3,7 +3,7 @@ const container = document.getElementById("product-list");
 fetch('/api/products')
   .then(response => response.json())
   .then(data => {
-    // data es el objeto paginado, con la propiedad docs que es el array de productos
+    
     const products = data.docs || [];
     
     products.forEach(product => {

@@ -1,9 +1,9 @@
-/* Navbar */
+
 .navbar-brand {
   font-weight: 700;
 }
 
-/* Carrito flotante */
+
 #floatingCart {
   position: fixed;
   top: 20px;
@@ -26,13 +26,13 @@
   right: -5px;
 }
 
-/* Badge carrito en navbar */
+
 #cartCount {
   font-size: 0.75rem;
   padding: 0.3em 0.5em;
 }
 
-/* Footer */
+
 footer {
   font-size: 0.9rem;
 }

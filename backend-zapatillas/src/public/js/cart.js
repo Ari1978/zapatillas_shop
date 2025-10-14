@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartCountEl = document.getElementById("cart-count");
   const checkoutBtn = document.getElementById("checkoutBtn");
 
-  // 🔹 Actualizar contador del carrito
+  // Actualizar contador del carrito
   window.updateCartCount = (count) => {
     if (cartCountEl) cartCountEl.textContent = count;
   };
 
-  // 🔹 Finalizar compra
+  // Finalizar compra
   checkoutBtn?.addEventListener("click", async () => {
     try {
       const res = await fetch("/api/tickets/purchase", {
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 🔹 Eliminar producto del carrito (sin recargar la página)
+  // Eliminar producto del carrito (sin recargar la página)
   const removeButtons = document.querySelectorAll(".remove-from-cart-btn");
 
   removeButtons.forEach((button) => {
@@ -56,17 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (response.ok) {
           alert("Producto eliminado del carrito");
 
-          // 🔹 Eliminar la card del DOM
+          // Eliminar la card del DOM
           const productCard = button.closest('.cart-product-card');
           const quantityEl = productCard.querySelector('p strong + text') || productCard.querySelector('p:nth-of-type(3)'); // fallback
           const quantity = parseInt(quantityEl?.textContent) || 1;
           productCard.remove();
 
-          // 🔹 Actualizar contador del carrito
+          // Actualizar contador del carrito
           const currentCount = parseInt(cartCountEl.textContent) || 0;
           cartCountEl.textContent = Math.max(0, currentCount - quantity);
 
-          // 🔹 Si no quedan productos, mostrar mensaje
+          // Si no quedan productos, mostrar mensaje
           const remainingProducts = document.querySelectorAll('.cart-product-card').length;
           if (remainingProducts === 0) {
             document.getElementById('cart-container').innerHTML = "<p>Tu carrito está vacío.</p>";

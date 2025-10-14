@@ -3,7 +3,7 @@
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
   <form action="/admin/users/edit/{{user.id}}" method="POST">
 
-    <!-- Nombre -->
+    
     <div class="mb-3">
       <label for="first_name" class="form-label">Nombre</label>
       <input
@@ -16,7 +16,7 @@
       >
     </div>
 
-    <!-- Apellido -->
+    
     <div class="mb-3">
       <label for="last_name" class="form-label">Apellido</label>
       <input
@@ -29,7 +29,7 @@
       >
     </div>
 
-    <!-- Edad -->
+    
     <div class="mb-3">
       <label for="age" class="form-label">Edad</label>
       <input
@@ -42,7 +42,7 @@
       >
     </div>
 
-    <!-- Email (readonly) -->
+    
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
       <input
@@ -55,7 +55,7 @@
       >
     </div>
 
-    <!-- Rol -->
+    
     <div class="mb-3">
       <label for="role" class="form-label">Rol</label>
       <select id="role" name="role" class="form-select">
@@ -64,7 +64,7 @@
       </select>
     </div>
 
-    <!-- Botones -->
+    
     <div class="text-center">
       <button type="submit" class="btn btn-success me-2">Guardar Cambios</button>
       <a href="/admin/users" class="btn btn-secondary">Cancelar</a>

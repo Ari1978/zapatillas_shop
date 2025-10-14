@@ -1,4 +1,4 @@
-// src/services/ticket.service.js
+
 import CartService from "./cart.service.js";
 import ProductService from "./product.service.js";
 import ticketModel from "../models/ticket.model.js";

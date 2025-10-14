@@ -6,7 +6,7 @@ import { PRIVATE_KEY, authorization } from "../utils.js";
 
 const router = Router();
 
-// 🔹 Index
+// Index
 router.get("/", async (req, res) => {
   try {
     res.render("index", { 
@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// 🔹 Home - muestra productos
+// Home - muestra productos
 router.get("/home", async (req, res) => {
   try {
     const products = await productModel.find().lean();
@@ -35,9 +35,8 @@ router.get("/home", async (req, res) => {
   }
 });
 
-// -------------------------------------------
+
 // Shop - solo para usuarios logueados
-// -------------------------------------------
 router.get("/shop", async (req, res) => {
   try {
     const products = await productModel.find().lean();
@@ -62,9 +61,8 @@ router.get("/shop", async (req, res) => {
   }
 });
 
-// -------------------------------------------
+
 // RealTimeProducts - Admin en tiempo real
-// -------------------------------------------
 router.get(
   "/realTimeProducts",
   passport.authenticate("jwt", { session: false }),
@@ -85,9 +83,8 @@ router.get(
 );
 
 
-// -------------------------------------------
+
 // Admin Panel
-// -------------------------------------------
 router.get(
   "/adminPanel",
   passport.authenticate("jwt", { session: false }), // protección con JWT

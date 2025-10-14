@@ -1,4 +1,4 @@
-// src/controllers/user.controller.js
+
 import TicketService from "../services/ticket.service.js";
 import CartService from "../services/cart.service.js";
 import UserService from "../services/user.service.js";

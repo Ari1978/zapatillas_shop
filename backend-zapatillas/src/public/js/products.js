@@ -2,9 +2,8 @@ const container = document.getElementById("realtime-products");
 const userLogged = !!document.body.dataset.user;
 const socket = io();
 
-// ================================
+
 // Renderizar un producto individual
-// ================================
 function renderProduct(product) {
   const card = document.createElement("div");
   card.className = "col-md-4 mb-3 product-card";
@@ -34,9 +33,7 @@ function renderProduct(product) {
   container.appendChild(card);
 }
 
-// ================================
 // Renderizar todos los productos
-// ================================
 function renderProducts(products) {
   container.innerHTML = "";
   if (!products || products.length === 0) {
@@ -46,9 +43,7 @@ function renderProducts(products) {
   products.forEach(renderProduct);
 }
 
-// ================================
 // Agregar producto al carrito
-// ================================
 async function addToCart(productId) {
   const quantityInput = document.getElementById(`quantity-${productId}`);
   const quantity = parseInt(quantityInput?.value || 1);
@@ -81,9 +76,8 @@ async function addToCart(productId) {
   }
 }
 
-// ================================
+
 // Delegación de eventos para botones
-// ================================
 container.addEventListener("click", (e) => {
   if (e.target.classList.contains("add-to-cart-btn")) {
     const productId = e.target.dataset.id;
@@ -91,9 +85,8 @@ container.addEventListener("click", (e) => {
   }
 });
 
-// ================================
+
 // Inicializar botón de compra
-// ================================
 const purchaseBtn = document.getElementById("purchaseBtn");
 purchaseBtn?.addEventListener("click", async () => {
   try {
@@ -115,9 +108,8 @@ purchaseBtn?.addEventListener("click", async () => {
   }
 });
 
-// ================================
+
 // Socket.io: actualizar productos en tiempo real
-// ================================
 socket.on("productsUpdated", (products) => {
   renderProducts(products);
 });

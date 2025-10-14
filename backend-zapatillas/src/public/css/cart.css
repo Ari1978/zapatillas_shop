@@ -1,11 +1,10 @@
-/* cart.css */
+
 
 /* Fuente global */
 body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* Cards del carrito */
 .cart-product-card .card {
   font-size: 0.9rem;
   border-radius: 8px;
@@ -13,9 +12,9 @@ body {
   text-align: center;
 }
 
-/* Imagen del producto más pequeña y centrada */
+
 .cart-product-card .card-img-top {
-  height: 140px; /* reducida para que quede más prolija */
+  height: 140px; 
   width: auto;
   max-width: 80%;
   object-fit: contain;
@@ -23,7 +22,6 @@ body {
   display: block;
 }
 
-/* Botón eliminar del carrito */
 .remove-from-cart-btn {
   width: 60%;
   font-size: 0.85rem;
@@ -33,7 +31,6 @@ body {
   border-radius: 6px;
 }
 
-/* Botones cerrar sesión, seguir comprando y finalizar compra */
 .btn-logout,
 .btn-continue,
 .btn-buy {

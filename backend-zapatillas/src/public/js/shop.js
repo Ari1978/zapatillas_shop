@@ -5,9 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const userLogged = window.userLogged;
   const jwtToken = window.jwtToken;
 
-  // ==============================
+
   // Renderizar un producto
-  // ==============================
   function renderProduct(product) {
     const card = document.createElement("div");
     card.className = "col-md-4 mb-3 product-card";
@@ -36,10 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     container.appendChild(card);
   }
-
-  // ==============================
+  
   // Renderizar lista de productos
-  // ==============================
+
   function renderProducts(products) {
     container.innerHTML = "";
     if (!products || products.length === 0) {
@@ -49,9 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
     products.forEach(renderProduct);
   }
 
-  // ==============================
+  
   // Actualizar contador del carrito
-  // ==============================
   function updateCartCount() {
     fetch("/api/carts/current", { credentials: "include" })
       .then(res => res.json())
@@ -62,9 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(err => console.error("Error al obtener contador de carrito:", err));
   }
 
-  // ==============================
   // Agregar producto al carrito
-  // ==============================
   async function addToCart(productId) {
     const quantityInput = document.getElementById(`quantity-${productId}`);
     const quantity = parseInt(quantityInput?.value || 1);
@@ -93,26 +88,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ==============================
+
   // Delegación de eventos
-  // ==============================
   container.addEventListener("click", e => {
     if (e.target.classList.contains("add-to-cart-btn")) {
       addToCart(e.target.dataset.id);
     }
   });
 
-  // ==============================
+
   // Socket.io para productos en tiempo real
-  // ==============================
   if (userLogged && jwtToken) {
     const socket = io({ auth: { token: jwtToken } });
     socket.on("connect_error", err => console.error("Socket.io error:", err.message));
     socket.on("productsUpdated", products => renderProducts(products));
   }
 
-  // ==============================
+
   // Inicializar contador al cargar la página
-  // ==============================
   if (userLogged) updateCartCount();
 });

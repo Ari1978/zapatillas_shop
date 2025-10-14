@@ -3,7 +3,6 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Sidebar */
 .sidebar {
   background: linear-gradient(180deg, #0d6efd, #003366);
   color: #fff;
@@ -48,7 +47,7 @@ body {
   color: white;
 }
 
-/* Contenido principal */
+
 main h2 {
   color: #0d6efd;
 }
@@ -62,7 +61,7 @@ table tbody tr:hover {
   background-color: #f2f6fc;
 }
 
-/* Ajustes de tabla */
+
 .table {
   border-radius: 8px;
   overflow: hidden;

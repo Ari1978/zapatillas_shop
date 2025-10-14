@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
   category: String,
   image: String,
   code: { type: String, unique: true },
-  thumbnails: { type: Array, default: [] } // agrega thumbnails vacío por defecto
+  thumbnails: { type: Array, default: [] } 
 }, { timestamps: true });
 
 

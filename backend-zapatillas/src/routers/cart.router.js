@@ -5,9 +5,7 @@ import productModel  from "../models/product.model.js";
 
 const router = Router();
 
-// ===============================
 // Obtener carrito del usuario
-// ===============================
 router.get("/cart", authRequired, async (req, res) => {
   try {
     let cart = await cartModel
@@ -31,9 +29,8 @@ router.get("/cart", authRequired, async (req, res) => {
   }
 });
 
-// ===============================
+
 // Agregar producto al carrito
-// ===============================
 router.post("/add", authRequired, async (req, res) => {
   const { productId, quantity } = req.body;
 
@@ -60,9 +57,8 @@ router.post("/add", authRequired, async (req, res) => {
   }
 });
 
-// ===============================
 // Eliminar producto del carrito
-// ===============================
+
 router.delete("/remove", authRequired, async (req, res) => {
   const { productId } = req.body;
 
@@ -83,9 +79,8 @@ router.delete("/remove", authRequired, async (req, res) => {
   }
 });
 
-// ===============================
+
 // Obtener cantidad de productos en el carrito actual
-// ===============================
 router.get("/current", authRequired, async (req, res) => {
   try {
     const cart = await cartModel.findOne({ user: req.user.id }).populate("products.product");

@@ -5,7 +5,7 @@ import { PRIVATE_KEY } from "../utils.js";
 export default class CustomRouter {
   constructor() {
     this.router = Router();
-    this.init(); // cada clase hija define sus rutas en init()
+    this.init(); 
   }
 
   getRouter() {
@@ -13,7 +13,7 @@ export default class CustomRouter {
   }
 
   init() {
-    // Clase hija debe sobrescribir
+    
   }
 
   // Métodos HTTP

@@ -1,6 +1,6 @@
 import ticketModel from "../models/ticket.model.js";
 import cartModel from "../models/cart.model.js";
-import { v4 as uuidv4 } from "uuid"; // npm install uuid
+import { v4 as uuidv4 } from "uuid"; 
 
 export class TicketController {
   // Crear ticket

@@ -1,6 +1,4 @@
-/* shop.css */
 
-/* Fuente global */
 body {
   font-family: 'Roboto', sans-serif;
 }
@@ -13,9 +11,9 @@ body {
   text-align: center;
 }
 
-/* Imagen del producto más pequeña y centrada */
+
 .product-card .card-img-top {
-  height: 150px; /* tamaño reducido */
+  height: 150px; 
   width: auto;
   max-width: 90%;
   object-fit: contain;
@@ -23,7 +21,7 @@ body {
   display: block;
 }
 
-/* Botón agregar al carrito */
+
 .add-to-cart-btn {
   width: 90%;
   font-size: 0.85rem;
@@ -33,7 +31,7 @@ body {
   border-radius: 6px;
 }
 
-/* Botones cerrar sesión y comprar productos más pequeños */
+
 .btn-logout,
 .btn-buy {
   font-size: 0.8rem;
@@ -41,7 +39,7 @@ body {
   border-radius: 5px;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .product-card .card-img-top {
     height: 120px;

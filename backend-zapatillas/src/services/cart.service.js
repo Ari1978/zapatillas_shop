@@ -1,11 +1,10 @@
-// src/services/cart.service.js
+
 import cartModel from "../models/cart.model.js";
 
 export default class CartService {
 
-  // -----------------------
+  
   // MÉTODOS ESTÁTICOS
-  // -----------------------
 
   // Obtener carrito por usuario
   static async getCartByUser(userId) {

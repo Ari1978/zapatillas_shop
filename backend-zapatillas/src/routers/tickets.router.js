@@ -5,7 +5,7 @@ import { authRequired } from "../utils.js";
 const router = Router();
 const ticketController = new TicketController();
 
-// POST: Generar ticket
+// Generar ticket
 router.post("/purchase", authRequired, async (req, res) => {
   try {
     const userId = req.user.id || req.user._id;
@@ -16,7 +16,7 @@ router.post("/purchase", authRequired, async (req, res) => {
   }
 });
 
-// GET: Renderizar ticket por ID
+// Renderizar ticket por ID
 router.get("/:ticketId", authRequired, async (req, res) => {
   try {
     const ticket = await ticketController.getTicketById(req.params.ticketId);

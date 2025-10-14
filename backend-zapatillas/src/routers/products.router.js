@@ -3,9 +3,8 @@ import productModel from "../models/product.model.js";
 
 const router = Router();
 
-// ==========================================
-// ✅ API JSON - obtener todos los productos
-// ==========================================
+
+//  API JSON - obtener todos los productos
 router.get("/", async (req, res) => {
   try {
     const products = await productModel.find({});
@@ -15,9 +14,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ==========================================
-// ✅ Crear producto
-// ==========================================
+
+// Crear producto
 router.post("/", async (req, res) => {
   try {
     const product = await productModel.create(req.body);
@@ -27,9 +25,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ==========================================
-// ✅ Vista HTML - Handlebars
-// ==========================================
+
+// Vista HTML - Handlebars
 router.get("/shop", async (req, res) => {
   try {
     const products = await productModel.find({});

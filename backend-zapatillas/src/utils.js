@@ -6,10 +6,10 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import dotenv from "dotenv";
 
-// 🔹 Cargar variables de entorno lo antes posible
+// Cargar variables de entorno lo antes posible
 dotenv.config();
 
-// --- __dirname en ESModules ---
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 export default __dirname;

@@ -1,4 +1,4 @@
-/* Fondo con imagen */
+
 body {
   font-family: 'Roboto', sans-serif;
   background: url('https://www.namesnack.com/images/namesnack-nombres-para-tiendas-de-zapatos-deportivos-6000x4000-20230523.jpeg?crop=2:1,smart&width=730') no-repeat center center fixed;
@@ -11,9 +11,9 @@ body {
   margin: 0;
 }
 
-/* Contenedor transparente para no tapar el fondo */
+
 .container {
-  background-color: rgba(0, 0, 0, 0.3); /* semi-transparente oscuro para contraste */
+  background-color: rgba(0, 0, 0, 0.3); 
   padding: 60px 40px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
@@ -34,8 +34,8 @@ body {
 h1 {
   font-size: 2.5rem;
   margin-bottom: 40px;
-  color: #fff; /* título blanco */
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.6); /* sombra para resaltar sobre el fondo */
+  color: #fff; 
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6); 
 }
 
 .btn-home {

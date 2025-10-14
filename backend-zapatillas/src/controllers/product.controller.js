@@ -1,4 +1,4 @@
-// src/controllers/ProductController.js
+
 import ProductService from "../services/product.service.js";
 
 export class ProductController {

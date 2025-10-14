@@ -1,4 +1,4 @@
-// src/server.js
+
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
@@ -22,7 +22,7 @@ if (!MONGO_URI) {
   process.exit(1);
 }
 
-// ✅ Crear admin si no existe
+// Creo admin si no existe
 const seedAdmin = async () => {
   const { ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD) return;
@@ -42,7 +42,7 @@ const seedAdmin = async () => {
   }
 };
 
-// ✅ Inicializa Mongo una sola vez
+// Inicializa Mongo una sola vez
 let dbReady = false;
 const initMongo = async () => {
   if (!dbReady) {
@@ -53,9 +53,9 @@ const initMongo = async () => {
   }
 };
 
-// ======================================================
-// 🔹 Configuración HTTP y Socket.io
-// ======================================================
+
+// Configuración HTTP y Socket.io
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: "*", methods: ["GET", "POST"] },
@@ -100,9 +100,8 @@ io.on("connection", async (socket) => {
   });
 });
 
-// ======================================================
-// 🔹 MODO LOCAL
-// ======================================================
+
+// Solo ejecuta el servidor en modo local
 if (process.env.NODE_ENV !== "production") {
   initMongo().then(() => {
     server.listen(PORT, () => {
@@ -111,10 +110,10 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-// ======================================================
-// 🔹 EXPORT PARA VERCEL / SERVERLESS
-// ======================================================
-export default async function handler(req, res) {
+// Exportación compatible con Vercel
+const handler = async (req, res) => {
   await initMongo();
   return app(req, res);
-}
+};
+
+export default handler;
