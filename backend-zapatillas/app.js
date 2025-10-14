@@ -86,7 +86,5 @@ app.use("/tickets", ticketsRouter);
 app.use("/profile", ticketsRouter);
 app.use("/admin", adminRouter);
 
-// Home route
-app.get("/", (req, res) => res.render("home", { title: "Inicio" }));
 
 export default app;
