@@ -1,7 +1,8 @@
-
+// app.js
 import dotenv from "dotenv";
-dotenv.config(); 
+dotenv.config(); // 🔹 debe ir primero
 
+import express from "express";
 import { create } from "express-handlebars";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -12,47 +13,47 @@ import helpers from "handlebars-helpers";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
-import initializePassport from "./config/passport.config.js";
+// 🔹 Import passport config y routers
+import initializePassport from "./src/config/passport.config.js";
+import productsRouter from "./src/routers/products.router.js";
+import cartsRouter from "./src/routers/cart.router.js";
+import viewsRouter from "./src/routers/views.router.js";
+import usersRouter from "./src/routers/users.router.js";
+import sessionsRouter from "./src/routers/sessions.router.js";
+import githubViewsRouter from "./src/routers/github.views.js";
+import customUsersRouter from "./src/routers/customUsers.router.js";
+import usersViewsRouter from "./src/routers/users.views.router.js";
+import ticketsRouter from "./src/routers/tickets.router.js";
+import adminRouter from "./src/routers/admin.router.js";
 
-
-import productsRouter from "./routers/products.router.js";
-import cartsRouter from "./routers/cart.router.js";
-import viewsRouter from "./routers/views.router.js";
-import usersRouter from "./routers/users.router.js";
-import sessionsRouter from "./routers/sessions.router.js";
-import githubViewsRouter from "./routers/github.views.js";
-import customUsersRouter from "./routers/customUsers.router.js";
-import usersViewsRouter from "./routers/users.views.router.js";
-import ticketsRouter from "./routers/tickets.router.js";
-import adminRouter from "./routers/admin.router.js";
-
-
+// 🔹 __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 
-
+// ======================================================
 // 🔹 MIDDLEWARES BASE
-
+// ======================================================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(join(__dirname, "public"))); 
+app.use(express.static(join(__dirname, "src", "public"))); // archivos estáticos
+app.set("views", join(__dirname, "src", "views")); // vistas
 
-
-// HANDLEBARS CONFIG
-
+// ======================================================
+// 🔹 HANDLEBARS CONFIG
+// ======================================================
 const multihelpers = helpers();
 
-// Helper para multiplicar
+// Multiplicación
 multihelpers.multiply = (a, b) => {
   const numA = Number(a) || 0;
   const numB = Number(b) || 0;
   return (numA * numB).toFixed(2);
 };
 
-// Helper para calcular total del carrito
+// Total del carrito
 multihelpers.calculateTotal = (products) => {
   if (!products || products.length === 0) return "0.00";
   return products.reduce((acc, item) => {
@@ -62,7 +63,7 @@ multihelpers.calculateTotal = (products) => {
   }, 0).toFixed(2);
 };
 
-// Helper para formatear fechas
+// Formato de fechas
 multihelpers.formatDate = (dateStr) => {
   if (!dateStr) return "";
   const date = new Date(dateStr);
@@ -71,7 +72,7 @@ multihelpers.formatDate = (dateStr) => {
     month: "long",
     year: "numeric",
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
   });
 };
 
@@ -83,14 +84,12 @@ const hbs = create({
   },
 });
 
-
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
-app.set("views", join(__dirname, "views"));
 
-
-// SESSION CONFIG
-
+// ======================================================
+// 🔹 SESSION CONFIG
+// ======================================================
 app.use(
   session({
     store: MongoStore.create({
@@ -103,15 +102,16 @@ app.use(
   })
 );
 
-
-// PASSPORT CONFIG
-
+// ======================================================
+// 🔹 PASSPORT CONFIG
+// ======================================================
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-// ROUTERS
+// ======================================================
+// 🔹 ROUTERS ORDENADOS
+// ======================================================
 // API
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
@@ -120,19 +120,18 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/github", githubViewsRouter);
 app.use("/api/tickets", ticketsRouter);
 
-
 // VISTAS
 app.use("/", viewsRouter);
 app.use("/users", customUsersRouter);
 app.use("/", usersViewsRouter);
-app.use("/", cartsRouter)
+app.use("/", cartsRouter);
 app.use("/tickets", ticketsRouter);
 app.use("/profile", ticketsRouter);
-app.use("/admin", adminRouter);
+app.use("/admin", adminRouter);;
 
-
-//  RUTA PRINCIPAL HOME
-
+// ======================================================
+// 🔹 RUTA PRINCIPAL HOME
+// ======================================================
 app.get("/", (req, res) => {
   res.render("home", { title: "Inicio - Farmacia" });
 });

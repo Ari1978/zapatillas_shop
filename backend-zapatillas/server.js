@@ -1,28 +1,24 @@
-
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { Server } from "socket.io";
 import http from "http";
+import { Server } from "socket.io";
 
 import app from "./app.js";
-import productModel from "./models/product.model.js";
-import userModel from "./models/user.model.js";
-import { PRIVATE_KEY } from "./utils.js";
+import userModel from "./src/models/user.model.js";
+import productModel from "./src/models/product.model.js";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 9090;
 const MONGO_URI = process.env.MONGO_URI;
 
-// ❌ Detener si no hay URI
 if (!MONGO_URI) {
   console.error("❌ MONGO_URI no definida");
   process.exit(1);
 }
 
-// Creo admin si no existe
+// Crear admin
 const seedAdmin = async () => {
   const { ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD) return;
@@ -42,7 +38,7 @@ const seedAdmin = async () => {
   }
 };
 
-// Inicializa Mongo una sola vez
+// Conexión a Mongo
 let dbReady = false;
 const initMongo = async () => {
   if (!dbReady) {
@@ -53,39 +49,12 @@ const initMongo = async () => {
   }
 };
 
-
-// Configuración HTTP y Socket.io
-
+// Servidor y Socket.io
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: "*", methods: ["GET", "POST"] },
-});
-
-// Middleware JWT para sockets
-io.use((socket, next) => {
-  let token = socket.handshake.auth?.token;
-
-  if (!token && socket.handshake.headers.cookie) {
-    const cookies = Object.fromEntries(
-      socket.handshake.headers.cookie
-        .split(";")
-        .map(c => c.trim().split("="))
-    );
-    token = cookies.jwtCookieToken;
-  }
-
-  if (!token) return next(new Error("Token no provisto"));
-
-  jwt.verify(token, PRIVATE_KEY, (err, decoded) => {
-    if (err) return next(new Error("Token inválido"));
-    socket.user = decoded.user;
-    next();
-  });
-});
+const io = new Server(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 
 io.on("connection", async (socket) => {
-  console.log(`🔌 Cliente conectado: ${socket.id} | Usuario: ${socket.user?.email}`);
-
+  console.log(`🔌 Cliente conectado: ${socket.id}`);
   const products = await productModel.find({}).lean();
   socket.emit("productsUpdated", products);
 
@@ -100,20 +69,7 @@ io.on("connection", async (socket) => {
   });
 });
 
-
-// Solo ejecuta el servidor en modo local
-if (process.env.NODE_ENV !== "production") {
-  initMongo().then(() => {
-    server.listen(PORT, () => {
-      console.log(`🚀 Servidor local corriendo en http://localhost:${PORT}`);
-    });
-  });
-}
-
-// Exportación compatible con Vercel
-const handler = async (req, res) => {
-  await initMongo();
-  return app(req, res);
-};
-
-export default handler;
+// Solo local
+initMongo().then(() => {
+  server.listen(PORT, () => console.log(`🚀 Servidor local en http://localhost:${PORT}`));
+});
