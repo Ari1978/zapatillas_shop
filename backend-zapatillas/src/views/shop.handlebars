@@ -14,12 +14,12 @@
     <h1>{{title}}</h1>
     <div class="d-flex justify-content-between align-items-center mb-4">
       {{#unless user}}
-        <a href="/login" class="btn btn-primary">Ingresar para comprar</a>
+        <a href="/views/users/login" class="btn btn-primary">Ingresar para comprar</a>
       {{else}}
         <span class="fw-bold me-3">Hola, {{user.first_name}}</span>
         <a href="/api/sessions/logout" class="btn btn-danger">Cerrar sesión</a>
       {{/unless}}
-      <a href="/cart" id="cart-btn" class="btn btn-outline-primary position-relative">
+      <a href="/carts/cart" id="cart-btn" class="btn btn-outline-primary position-relative">
         🛒 Carrito
         <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
       </a>
@@ -74,7 +74,7 @@
             confirmButtonColor: "#0d6efd"
           }).then((result) => {
             if (result.isConfirmed) {
-              window.location.href = "/login";
+              window.location.href = "/views/users/login";
             }
           });
         }

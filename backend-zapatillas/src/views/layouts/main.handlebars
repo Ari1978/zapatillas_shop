@@ -37,7 +37,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="/home">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="/vistas/home">Productos</a></li>
           </ul>
 
           <ul class="navbar-nav ms-auto align-items-center">
@@ -59,14 +59,14 @@
                   aria-labelledby="userDropdown"
                 >
                   <li>
-                    <a class="dropdown-item" href="/profile">
+                    <a class="dropdown-item" href="/views/users/profile">
                       Perfil
                     </a>
 
                   </li>
 
                   {{#if (eq user.role "admin")}}
-                    <li><a class="dropdown-item" href="/admin">Panel Admin</a></li>
+                    <li><a class="dropdown-item" href="/vistas/adminPanel">Panel Admin</a></li>
                   {{/if}}
 
                   <li><hr class="dropdown-divider" /></li>
@@ -78,7 +78,7 @@
               </li>
             {{else}}
               <li class="nav-item ms-2">
-                <a href="/login" class="btn btn-outline-light btn-sm">Iniciar
+                <a href="/views/users/login" class="btn btn-outline-light btn-sm">Iniciar
                   sesión</a>
               </li>
             {{/if}}

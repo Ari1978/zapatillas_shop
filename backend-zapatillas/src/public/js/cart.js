@@ -34,52 +34,65 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Eliminar producto del carrito (sin recargar la página)
-  const removeButtons = document.querySelectorAll(".remove-from-cart-btn");
+const removeButtons = document.querySelectorAll(".remove-from-cart-btn");
 
-  removeButtons.forEach((button) => {
-    button.addEventListener("click", async () => {
-      const productId = button.dataset.id;
+removeButtons.forEach((button) => {
+  button.addEventListener("click", async () => {
+    const productId = button.dataset.id;
 
-      try {
-        const response = await fetch("/api/carts/remove", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${window.jwtToken}`,
-          },
-          credentials: "include",
-          body: JSON.stringify({ productId })
-        });
+    try {
+      const response = await fetch("/api/carts/remove", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${window.jwtToken}`,
+        },
+        credentials: "include",
+        body: JSON.stringify({ productId }),
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (response.ok) {
-          alert("Producto eliminado del carrito");
+      if (response.ok) {
+        alert("Producto eliminado del carrito");
 
-          // Eliminar la card del DOM
-          const productCard = button.closest('.cart-product-card');
-          const quantityEl = productCard.querySelector('p strong + text') || productCard.querySelector('p:nth-of-type(3)'); // fallback
-          const quantity = parseInt(quantityEl?.textContent) || 1;
-          productCard.remove();
+        // Eliminar la card del DOM
+        const productCard = button.closest(".cart-product-card");
 
-          // Actualizar contador del carrito
-          const currentCount = parseInt(cartCountEl.textContent) || 0;
-          cartCountEl.textContent = Math.max(0, currentCount - quantity);
-
-          // Si no quedan productos, mostrar mensaje
-          const remainingProducts = document.querySelectorAll('.cart-product-card').length;
-          if (remainingProducts === 0) {
-            document.getElementById('cart-container').innerHTML = "<p>Tu carrito está vacío.</p>";
+        // Buscar cantidad dentro del texto (por ejemplo: "Cantidad: 2")
+        let quantity = 1;
+        const quantityParagraphs = productCard.querySelectorAll("p");
+        for (const p of quantityParagraphs) {
+          if (p.textContent.includes("Cantidad")) {
+            const match = p.textContent.match(/\d+/);
+            if (match) quantity = parseInt(match[0]);
+            break;
           }
-
-        } else {
-          alert(result.message || "No se pudo eliminar el producto");
         }
 
-      } catch (error) {
-        console.error("Error al eliminar producto:", error);
-        alert("Error al eliminar el producto");
+        // Remover del DOM
+        productCard.remove();
+
+        // Actualizar contador del carrito
+        const currentCount = parseInt(cartCountEl?.textContent) || 0;
+        if (cartCountEl) {
+          cartCountEl.textContent = Math.max(0, currentCount - quantity);
+        }
+
+        // Si no quedan productos, mostrar mensaje
+        const remainingProducts = document.querySelectorAll(".cart-product-card").length;
+        if (remainingProducts === 0) {
+          document.getElementById("cart-container").innerHTML = "<p>Tu carrito está vacío.</p>";
+        }
+
+      } else {
+        alert(result.message || "No se pudo eliminar el producto");
       }
-    });
+
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+      alert("Error al eliminar el producto");
+    }
   });
+});
 });

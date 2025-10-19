@@ -78,12 +78,15 @@ app.use("/api/github", githubViewsRouter);
 app.use("/api/tickets", ticketsRouter);
 
 // Routers Vistas
-app.use("/", viewsRouter);
+
+app.use("/vistas", viewsRouter);
 app.use("/users", customUsersRouter);
-app.use("/", usersViewsRouter);
-app.use("/", cartsRouter);
+app.use("/views/users", usersViewsRouter);
+app.use("/carts", cartsRouter);
 app.use("/tickets", ticketsRouter);
-app.use("/profile", ticketsRouter);
+
+
+
 app.use("/admin", adminRouter);
 
 

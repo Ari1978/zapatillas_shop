@@ -9,7 +9,7 @@
     {{else}}
       <div>
         <span class="fw-bold me-3">Hola, {{user.first_name}}</span>
-        <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
+        <a href="/api/sessions/logout" class="btn btn-danger">Cerrar sesión</a>
         <button id="purchaseBtn" class="btn btn-warning ms-3">Comprar productos del carrito</button>
       </div>
     {{/unless}}

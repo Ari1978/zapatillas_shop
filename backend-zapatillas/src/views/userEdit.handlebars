@@ -1,61 +1,35 @@
-<h1 class="mb-4 text-center">Editar Usuario</h1>
+<h1 class="mb-4 text-center">
+  {{#if isAdmin}}
+    Editar Usuario
+  {{else}}
+    Editar Perfil
+  {{/if}}
+</h1>
 
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
-  <form action="/admin/users/edit/{{user.id}}" method="POST">
-
-    
+  <!-- Formulario para editar perfil -->
+  <form action="{{formAction}}" method="POST">
     <div class="mb-3">
       <label for="first_name" class="form-label">Nombre</label>
-      <input
-        type="text"
-        id="first_name"
-        name="first_name"
-        value="{{user.first_name}}"
-        class="form-control"
-        required
-      >
+      <input type="text" id="first_name" name="first_name" value="{{user.first_name}}" class="form-control" required>
     </div>
 
-    
     <div class="mb-3">
       <label for="last_name" class="form-label">Apellido</label>
-      <input
-        type="text"
-        id="last_name"
-        name="last_name"
-        value="{{user.last_name}}"
-        class="form-control"
-        required
-      >
+      <input type="text" id="last_name" name="last_name" value="{{user.last_name}}" class="form-control" required>
     </div>
 
-    
     <div class="mb-3">
       <label for="age" class="form-label">Edad</label>
-      <input
-        type="number"
-        id="age"
-        name="age"
-        value="{{user.age}}"
-        class="form-control"
-        required
-      >
+      <input type="number" id="age" name="age" value="{{user.age}}" class="form-control" required>
     </div>
 
-    
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        value="{{user.email}}"
-        class="form-control"
-        readonly
-      >
+      <input type="email" id="email" name="email" value="{{user.email}}" class="form-control" readonly>
     </div>
 
-    
+    {{#if isAdmin}}
     <div class="mb-3">
       <label for="role" class="form-label">Rol</label>
       <select id="role" name="role" class="form-select">
@@ -63,12 +37,30 @@
         <option value="admin" {{#if (eq user.role "admin")}}selected{{/if}}>Administrador</option>
       </select>
     </div>
+    {{/if}}
 
-    
     <div class="text-center">
       <button type="submit" class="btn btn-success me-2">Guardar Cambios</button>
-      <a href="/admin/users" class="btn btn-secondary">Cancelar</a>
+      <a href="{{cancelUrl}}" class="btn btn-secondary">Cancelar</a>
     </div>
-
   </form>
+
+  <hr class="my-4">
+  <div class="d-flex justify-content-end mt-4 mb-4">
+  <!-- Botón Volver según el rol -->
+   <div>
+    <a href="/admin/users" class="btn btn-secondary">Volver</a>
+  </div>
+
+  <!-- Botón Cambiar Contraseña -->
+  <a href="{{#if isAdmin}}/vistas/admin/users/change-password/{{user._id}}{{else}}/vistas/profile/change-password{{/if}}" 
+     class="btn btn-warning btn-sm ms-2 px-4">
+    Cambiar Contraseña
+  </a>
+</div>
+
+</div>
+
+
+
 </div>

@@ -16,7 +16,7 @@ router.post(
     res.status(201).json({
       status: "success",
       message: "Usuario registrado correctamente",
-      redirect: "/shop"
+      redirect: "/vistas/shop"
     });
   }
 );
@@ -36,7 +36,7 @@ router.post("/login", (req, res, next) => {
     const token = generateJWToken(user);
     res.cookie("jwtCookieToken", token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 });
 
-    const redirectUrl = user.role === "admin" ? "/adminPanel" : "/shop";
+    const redirectUrl = user.role === "admin" ? "/vistas/adminPanel" : "/vistas/shop";
     return res.json({ status: "success", redirect: redirectUrl });
   })(req, res, next);
 });
@@ -46,7 +46,7 @@ router.get("/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).send({ error: "Error al cerrar sesión" });
     res.clearCookie("jwtCookieToken");
-    return res.redirect("/home");
+    return res.redirect("/vistas/home");
   });
 });
 

@@ -10,7 +10,7 @@
   <div class="container my-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h1>Perfil de {{user.first_name}}</h1>
-      <a href="/shop" class="btn btn-outline-primary">Volver a la tienda</a>
+      <a href="/vistas/shop" class="btn btn-outline-primary">Volver a la tienda</a>
     </div>
 
     <!-- Información básica -->
@@ -23,8 +23,8 @@
           <p><strong>Nombre:</strong> {{user.first_name}} {{user.last_name}}</p>
           <p><strong>Email:</strong> {{user.email}}</p>
           <p><strong>Registrado desde:</strong> {{formatDate user.createdAt}}</p>
-          <a href="/profile/edit" class="btn btn-secondary btn-sm me-2">Editar perfil</a>
-          <a href="/profile/change-password" class="btn btn-warning btn-sm">Cambiar contraseña</a>
+          <a href="/vistas/profile/edit" class="btn btn-secondary btn-sm me-2">Editar perfil</a>
+          <a href="/vistas/profile/change-password" class="btn btn-warning btn-sm">Cambiar contraseña</a>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
         <ul class="list-group">
           {{#each tickets}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="/tickets/{{this._id}}">Ticket #{{this.code}}</a>
+              <a href="/tickets/{{this.id}}">Ticket #{{this.code}}</a>
               <span>Total: ${{this.amount}}</span>
               <span>{{formatDate this.purchase_datetime}}</span>
             </li>
@@ -60,9 +60,7 @@
           {{/each}}
         </ul>
         <p class="mt-2"><strong>Total:</strong> ${{cartTotal}}</p>
-        <a href="/cart" class="btn btn-primary">Ir al carrito</a>
-      {{else}}
-        <p>Tu carrito está vacío.</p>
+        <a href="/carts/cart" class="btn btn-primary">Ir al carrito</a>      {{else}}        <p>Tu carrito está vacío.</p>
       {{/if}}
     </div>
   </div>
