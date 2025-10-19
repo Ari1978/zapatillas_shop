@@ -1,16 +1,20 @@
 import { Router } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
+import { join} from "path";
 import productModel from "../models/product.model.js";
 import userModel from "../models/user.model.js";
 import { PRIVATE_KEY, authorization, createHash } from "../utils.js";
 
 const router = Router();
 
+const __dirname = process.cwd();
 // -----------------------
 // INDEX - HTML estático
 // -----------------------
-router.get("/", (req, res) => res.render("index", {}));
+router.get("/", (req, res) => {
+  res.sendFile(join(__dirname, "src", "public", "index.html"));
+});
 
 // -----------------------
 // HOME - Productos
