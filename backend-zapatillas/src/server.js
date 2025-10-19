@@ -35,15 +35,15 @@ const seedAdmin = async () => {
   }
 };
 
-// 🔌 Conexión a MongoDB (solo si no está conectada)
-let dbReady = false;
+// 🔌 Conexión a MongoDB singleton
+let dbConnection = null;
 const initMongo = async () => {
-  if (!dbReady) {
-    await mongoose.connect(MONGO_URI);
-    dbReady = true;
+  if (!dbConnection) {
+    dbConnection = await mongoose.connect(MONGO_URI);
     console.log("✅ Conectado a MongoDB");
     await seedAdmin();
   }
+  return dbConnection;
 };
 
 // 🧠 Inicializar servidor solo en entorno local
@@ -76,8 +76,8 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-// ✅ Exportación para Vercel
+// ✅ Exportación para Vercel / serverless
 export default async function handler(req, res) {
-  await initMongo();
+  await initMongo(); 
   return app(req, res);
 }
