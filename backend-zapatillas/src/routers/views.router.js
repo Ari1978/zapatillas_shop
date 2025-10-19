@@ -8,19 +8,9 @@ import { PRIVATE_KEY, authorization, createHash } from "../utils.js";
 const router = Router();
 
 // -----------------------
-// INDEX
+// INDEX - HTML estático
 // -----------------------
-router.get("/", async (req, res) => {
-  try {
-    res.render("index", { 
-      title: "ZapatillasShop",
-      year: new Date().getFullYear()
-    });
-  } catch (err) {
-    console.error("Error en index:", err);
-    res.status(500).send("Error cargando página de inicio");
-  }
-});
+router.get("/", (req, res) => res.render("index", {}));
 
 // -----------------------
 // HOME - Productos
