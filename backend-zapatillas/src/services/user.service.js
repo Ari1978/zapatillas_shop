@@ -1,36 +1,38 @@
-import userModel from "../models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import { UserDTO } from "../dto/user.dto.js";
+import UserRepository from "../repositories/user.repository.js";
+
+const repo = new UserRepository();
 
 class UserService {
   // Crear usuario con contraseña hasheada
   static async createUser(data) {
     data.password = createHash(data.password);
-    const user = await userModel.create(data);
+    const user = await repo.create(data);
     return new UserDTO(user);
   }
 
   // Obtener todos los usuarios
   static async getAllUsers() {
-    const users = await userModel.find().lean();
+    const users = await repo.findAll();
     return users.map(user => new UserDTO(user));
   }
 
   // Buscar usuario por email
   static async getUserByEmail(email) {
-    const user = await userModel.findOne({ email }).lean();
+    const user = await repo.findByEmail(email);
     return user ? new UserDTO(user) : null;
   }
 
   // Buscar usuario por ID
   static async getUserById(id) {
-    const user = await userModel.findById(id).lean();
+    const user = await repo.findById(id);
     return user ? new UserDTO(user) : null;
   }
 
   // Validar credenciales
   static async validateUser(email, password) {
-    const user = await userModel.findOne({ email });
+    const user = await repo.findByEmail(email);
     if (!user) return false;
     return isValidPassword(user, password) ? new UserDTO(user) : false;
   }
@@ -38,13 +40,13 @@ class UserService {
   // Actualizar usuario
   static async updateUser(id, data) {
     if (data.password) data.password = createHash(data.password);
-    const updatedUser = await userModel.findByIdAndUpdate(id, data, { new: true }).lean();
+    const updatedUser = await repo.update(id, data);
     return updatedUser ? new UserDTO(updatedUser) : null;
   }
 
   // Eliminar usuario
   static async deleteUser(id) {
-    await userModel.findByIdAndDelete(id);
+    await repo.delete(id);
     return true;
   }
 }

@@ -1,84 +1,71 @@
+import CartRepository from "../repositories/cart.repository.js";
 
-import cartModel from "../models/cart.model.js";
+const repo = new CartRepository();
 
 export default class CartService {
 
-  
-  // MÉTODOS ESTÁTICOS
-
   // Obtener carrito por usuario
   static async getCartByUser(userId) {
-    try {
-      const cart = await cartModel
-        .findOne({ user: userId })
-        .populate("products.product")
-        .lean();
-      return cart || { products: [] };
-    } catch (error) {
-      console.error("Error obteniendo carrito:", error);
-      return { products: [] };
-    }
+    const cart = await repo.findByUser(userId);
+    return cart || { products: [] };
   }
 
-  // Calcular total del carrito
+  // Calcular total
   static async calculateTotal(userId) {
-    try {
-      const cart = await this.getCartByUser(userId);
-      if (!cart.products || cart.products.length === 0) return 0;
+    const cart = await repo.findByUser(userId);
+    if (!cart || !cart.products.length) return 0;
 
-      return cart.products.reduce((sum, item) => {
-        const price = Number(item.product?.price ?? 0);
+    return cart.products
+      .reduce((sum, item) => {
+        const price = Number(item.product?.price ?? item.price);
         const quantity = Number(item.quantity ?? 0);
         return sum + price * quantity;
-      }, 0).toFixed(2);
-    } catch (error) {
-      console.error("Error calculando total del carrito:", error);
-      return 0;
-    }
+      }, 0)
+      .toFixed(2);
   }
 
   // Crear carrito si no existe
   static async createCart(userId) {
-    let cart = await cartModel.findOne({ user: userId });
-    if (!cart) {
-      cart = new cartModel({ user: userId, products: [] });
-      await cart.save();
-    }
+    let cart = await repo.findByUser(userId);
+    if (!cart) cart = await repo.createCart(userId);
     return cart;
   }
 
-  // Agregar producto al carrito
+  // Agregar producto
   static async addProduct(userId, productId, quantity = 1) {
-    const cart = await this.createCart(userId);
-    const productInCart = cart.products.find(p => p.product.toString() === productId);
+    let cart = await this.createCart(userId);
 
-    if (productInCart) {
-      productInCart.quantity += quantity;
+    const existing = cart.products.find(p => p.product.toString() === productId);
+    if (existing) {
+      existing.quantity += quantity;
     } else {
       cart.products.push({ product: productId, quantity });
     }
 
-    await cart.save();
+    await repo.save(cart);
     return cart;
   }
 
-  // Quitar producto del carrito
+  // Quitar producto
   static async removeProduct(userId, productId) {
-    const cart = await this.getCartByUser(userId);
+    const cart = await repo.findByUser(userId);
     if (!cart) throw new Error("Carrito no encontrado");
 
-    cart.products = cart.products.filter(p => p.product._id.toString() !== productId);
-    await cartModel.updateOne({ _id: cart._id }, cart);
+    cart.products = cart.products.filter(
+      (p) => p.product.toString() !== productId
+    );
+
+    await repo.save(cart);
     return cart;
   }
 
   // Vaciar carrito
   static async clearCart(userId) {
-    const cart = await this.getCartByUser(userId);
+    const cart = await repo.findByUser(userId);
     if (!cart) throw new Error("Carrito no encontrado");
 
     cart.products = [];
-    await cartModel.updateOne({ _id: cart._id }, cart);
+    await repo.save(cart);
     return cart;
   }
 }

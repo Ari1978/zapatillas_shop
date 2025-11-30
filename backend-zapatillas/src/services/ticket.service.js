@@ -1,26 +1,25 @@
-
 import CartService from "./cart.service.js";
 import ProductService from "./product.service.js";
-import ticketModel from "../models/ticket.model.js";
+import TicketRepository from "../repositories/ticket.repository.js";
 
-const cartService = new CartService();
+const ticketRepo = new TicketRepository();
 const productService = new ProductService();
 
 export default class TicketService {
-  // Crear un ticket a partir del carrito de un usuario
+  
   async createTicket(userId) {
-    if (!userId) throw new Error("User ID es requerido para obtener carrito");
+    if (!userId) throw new Error("User ID requerido");
 
-    // Obtener carrito del usuario
-    const cart = await cartService.getCartByUser(userId);
+    // Obtener carrito
+    const cart = await CartService.getCartByUser(userId);
     if (!cart || cart.products.length === 0) {
-      throw new Error("Carrito vacío, no se puede generar ticket");
+      throw new Error("Carrito vacío");
     }
 
     let total = 0;
     const purchasedProducts = [];
 
-    // Preparar productos comprados
+    // Validar stock y preparar productos comprados
     for (const item of cart.products) {
       const product = await productService.getProductById(item.product._id);
       if (!product) continue;
@@ -30,7 +29,7 @@ export default class TicketService {
           product: product._id,
           title: product.title,
           quantity: item.quantity,
-          price: product.price
+          price: product.price,
         });
 
         product.stock -= item.quantity;
@@ -40,8 +39,8 @@ export default class TicketService {
       }
     }
 
-    if (purchasedProducts.length === 0) {
-      throw new Error("No hay productos disponibles para la compra");
+    if (!purchasedProducts.length) {
+      throw new Error("No hay stock suficiente");
     }
 
     // Crear ticket
@@ -50,34 +49,30 @@ export default class TicketService {
       purchaser: userId,
       products: purchasedProducts,
       amount: total,
-      purchase_datetime: new Date()
+      purchase_datetime: new Date(),
     };
 
-    const ticket = await ticketModel.create(ticketData);
+    const ticket = await ticketRepo.create(ticketData);
 
-    // Limpiar carrito solo de los productos comprados
+    // Limpiar carrito
     cart.products = cart.products.filter(
-      item => !purchasedProducts.some(p => p.product.toString() === item.product._id.toString())
+      (item) =>
+        !purchasedProducts.some(
+          (p) => p.product.toString() === item.product._id.toString()
+        )
     );
-    await cart.save();
+
+    // Guardar carrito
+    await CartService.clearCart(userId);
 
     return ticket;
   }
 
-  // Obtener ticket por ID
   async getTicketById(ticketId) {
-    const ticket = await ticketModel.findById(ticketId).populate("products.product");
-    if (!ticket) throw new Error("Ticket no encontrado");
-    return ticket;
+    return await ticketRepo.findById(ticketId);
   }
 
-  // Obtener tickets de un usuario
   static async getTicketsByUser(userId) {
-    try {
-      return await ticketModel.find({ purchaser: userId }).sort({ purchase_datetime: -1 }).lean();
-    } catch (error) {
-      console.error("Error obteniendo tickets:", error);
-      return [];
-    }
+    return await ticketRepo.findByUser(userId);
   }
 }

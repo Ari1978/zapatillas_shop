@@ -1,0 +1,4 @@
+{"level":"error","message":"Error al obtener usuario: Cast to ObjectId failed for value \"me\" (type string) at path \"_id\" for model \"User\""}
+{"level":"error","message":"Error al obtener usuario: Cast to ObjectId failed for value \"me\" (type string) at path \"_id\" for model \"User\""}
+{"level":"error","message":"Error al obtener usuario: Cast to ObjectId failed for value \"me\" (type string) at path \"_id\" for model \"User\""}
+{"level":"error","message":"Error al obtener usuario: Cast to ObjectId failed for value \"me\" (type string) at path \"_id\" for model \"User\""}

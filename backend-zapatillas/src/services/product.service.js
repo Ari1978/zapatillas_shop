@@ -1,36 +1,53 @@
-
-import productModel from "../models/product.model.js";
+import ProductRepository from "../repositories/product.repository.js";
 
 export default class ProductService {
+  constructor() {
+    this.repo = new ProductRepository();
+  }
+
+  // ---------------------------
+  // Métodos reales del servicio
+  // ---------------------------
   async getAllProducts() {
-    return await productModel.find();
+    return await this.repo.findAll();
   }
 
   async getProductById(id) {
-    return await productModel.findById(id);
+    return await this.repo.findById(id);
   }
 
   async createProduct(data) {
-    // ✅ Validar y generar código único si no viene
     if (!data.code || data.code.trim() === "") {
-      data.code = "PROD-" + Date.now(); // genera uno único
+      data.code = "PROD-" + Date.now();
     }
 
-    // ✅ Validar stock
-    if (data.stock == null || data.stock < 0) {
-      data.stock = 0; // por seguridad
+    if (!data.stock || data.stock < 0) {
+      data.stock = 0;
     }
 
-    // ✅ Crear el producto
-    const product = await productModel.create(data);
-    return product;
+    return await this.repo.create(data);
   }
 
   async updateProduct(id, data) {
-    return await productModel.findByIdAndUpdate(id, data, { new: true });
+    return await this.repo.update(id, data);
   }
 
   async deleteProduct(id) {
-    return await productModel.findByIdAndDelete(id);
+    return await this.repo.delete(id);
+  }
+
+  // ==========================================================
+  // 🔥 Métodos que tus TESTS NECESITAN (unitarios)
+  // ==========================================================
+
+  calculateTotal(products = []) {
+    return products.reduce(
+      (acc, p) => acc + Number(p.price) * Number(p.quantity),
+      0
+    );
+  }
+
+  isStockAvailable(stock, needed) {
+    return Number(stock) >= Number(needed);
   }
 }

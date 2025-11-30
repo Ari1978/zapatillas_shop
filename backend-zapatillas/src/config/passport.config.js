@@ -2,7 +2,7 @@ import passport from "passport";
 import passportLocal from "passport-local";
 import  userModel  from "../models/user.model.js";
 import { createHash, isValidPassword, PRIVATE_KEY } from "../utils.js";
-import { Strategy as GitHubStrategy } from "passport-github2";
+/*import { Strategy as GitHubStrategy } from "passport-github2";*/
 import jwtStrategy from "passport-jwt";
 
 const JwtStrategy = jwtStrategy.Strategy;
@@ -39,7 +39,7 @@ const initializePassport = () => {
   );
 
   // 🔹 GitHub Strategy
-  passport.use(
+ /* passport.use(
     "github",
     new GitHubStrategy(
       {
@@ -66,7 +66,7 @@ const initializePassport = () => {
         }
       }
     )
-  );
+  );*/
 
   // 🔹 Register Strategy
   passport.use(

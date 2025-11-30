@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zapatillas-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zapatillas
+  template:
+    metadata:
+      labels:
+        app: zapatillas
+    spec:
+      containers:
+        - name: zapatillas-container
+          image: backend-zapatillas:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 9090
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_URI
+            - name: PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: PRIVATE_KEY

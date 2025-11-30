@@ -1,0 +1,30 @@
+services:
+  backend:
+    image: backend-zapatillas:1.0
+    container_name: zapatillas-backend
+    ports:
+      - "9090:9090"
+
+    # === Variables de entorno ===
+    environment:
+      MONGO_URI: "mongodb+srv://arielsuarez538_db_user:ok5q9wonYGJ9Rcuk@cluster0.fjhxvma.mongodb.net/?retryWrites=true&w=majority"
+      SESSION_SECRET: "c0d3rS3cr3t"
+      PRIVATE_KEY: "supersecretkey"
+
+    # === Reinicios seguros ===
+    restart: unless-stopped
+
+    # === Logs persistentes ===
+    volumes:
+      - ./logs:/app/logs
+
+    # === Recursos (opcional) ===
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: "512M"
+
+networks:
+  default:
+    driver: bridge

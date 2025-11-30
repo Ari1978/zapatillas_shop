@@ -70,7 +70,7 @@ router.get(
   async (req, res) => {
     try {
       const products = await productModel.find().lean();
-      res.render("realtimeProducts", {
+      res.render("realTimeProducts", {
         title: "Productos en Tiempo Real",
         products,
         user: req.user,

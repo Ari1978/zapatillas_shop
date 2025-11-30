@@ -1,0 +1,13 @@
+
+config:
+  target: "http://localhost:9090"
+  phases:
+    - duration: 20
+      arrivalRate: 10
+      name: "Carga moderada"
+
+scenarios:
+  - name: "Listar productos"
+    flow:
+      - get:
+          url: "/api/products"

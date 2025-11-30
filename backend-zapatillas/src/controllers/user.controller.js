@@ -1,74 +1,77 @@
-
 import TicketService from "../services/ticket.service.js";
 import CartService from "../services/cart.service.js";
 import UserService from "../services/user.service.js";
+import { logger } from "../config/logger.js";
 
 export default class UserController {
-  // Obtener todos los usuarios (solo admins)
   static async getUsers(req, res) {
     try {
+      logger.debug("Listando usuarios");
       const users = await UserService.getAllUsers();
+      logger.info(`Usuarios encontrados: ${users.length}`);
       res.json({ status: "Success", payload: users });
     } catch (error) {
+      logger.error("Error al obtener usuarios: " + error.message);
       res.status(500).json({ status: "Error", message: error.message });
     }
   }
 
-  // Obtener usuario por ID
   static async getUserById(req, res) {
     try {
       const { id } = req.params;
+      logger.debug(`Buscando usuario ${id}`);
       const user = await UserService.getUserById(id);
-      if (!user) return res.status(404).json({ status: "Error", message: "Usuario no encontrado" });
+
+      if (!user) {
+        logger.warning(`Usuario no encontrado: ${id}`);
+        return res.status(404).json({ status: "Error", message: "Usuario no encontrado" });
+      }
+
+      logger.info(`Usuario encontrado: ${id}`);
       res.json({ status: "Success", payload: user });
     } catch (error) {
+      logger.error("Error al obtener usuario: " + error.message);
       res.status(500).json({ status: "Error", message: error.message });
     }
   }
 
-  // Actualizar usuario
   static async updateUser(req, res) {
     try {
       const { id } = req.params;
+      logger.debug(`Actualizando usuario ${id}`);
       const updatedUser = await UserService.updateUser(id, req.body);
+      logger.info(`Usuario actualizado: ${id}`);
       res.json({ status: "Success", payload: updatedUser });
     } catch (error) {
+      logger.error("Error actualizando usuario: " + error.message);
       res.status(500).json({ status: "Error", message: error.message });
     }
   }
 
-  // Eliminar usuario
   static async deleteUser(req, res) {
     try {
       const { id } = req.params;
+      logger.warning(`Eliminando usuario ${id}`);
       await UserService.deleteUser(id);
       res.json({ status: "Success", message: "Usuario eliminado" });
     } catch (error) {
+      logger.error("Error eliminando usuario: " + error.message);
       res.status(500).json({ status: "Error", message: error.message });
     }
   }
 
-  // Renderizar perfil del usuario
   static async renderProfile(req, res) {
     try {
-      const user = req.user; // proviene de JWT / sesión
-      if (!user) return res.redirect("/login");
+      const user = req.user;
+      logger.debug(`Renderizando perfil para ${user?.email}`);
 
-      // Historial de tickets
-      const tickets = await TicketService.getTicketsByUser(user._id) || [];
+      const tickets = await TicketService.getTicketsByUser(user._id);
+      const cart = await CartService.getCartByUser(user._id);
+      const cartTotal = await CartService.calculateTotal(user._id);
 
-      // Carrito actual
-      const cart = await CartService.getCartByUser(user._id) || { products: [] };
-      const cartTotal = await CartService.calculateTotal(user._id) || 0;
-
-      res.render("profile", {
-        user,
-        tickets,
-        cart,
-        cartTotal
-      });
+      res.render("profile", { user, tickets, cart, cartTotal });
     } catch (error) {
-      console.error("Error renderizando perfil:", error);
+      logger.error("Error renderizando perfil: " + error.message);
       res.status(500).send("Error al cargar el perfil");
     }
   }
